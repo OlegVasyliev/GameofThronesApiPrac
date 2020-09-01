@@ -6,16 +6,20 @@ import ErrorMessage from "../error";
 
 export default class RandomChar extends Component {
 
-    constructor(props) {
-        super(props);
-        this.updateChar();
-    }
-
     gotService = new gotService();
     state = {
         char: {},
         loading: true,
         error: false
+    }
+
+    componentDidMount() {
+        this.updateChar();
+        this.timerId = setInterval(this.updateChar, 5000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerId);
     }
 
     onCharLoaded = (char) => {
@@ -32,7 +36,7 @@ export default class RandomChar extends Component {
         })
     }
 
-    updateChar() {
+    updateChar = () => {
         const id = Math.floor(Math.random() * 140 + 25); //25-140
         this.gotService.getCharacter(id)
             .then(this.onCharLoaded)
@@ -40,7 +44,7 @@ export default class RandomChar extends Component {
     }
 
     render() {
-        const {char, loading, error } = this.state;
+        const {char, loading, error} = this.state;
 
         const errorMessage = error ? <ErrorMessage/> : null;
         const spinner = loading ? <Spinner/> : null;
@@ -56,29 +60,29 @@ export default class RandomChar extends Component {
     }
 }
 
-    const View = ({char}) => {
-        const {name, gender, born, died, culture} = char;
-            return (
-            <>
-                <h4>Random Character: {name}</h4>
-                <ul className="list-group list-group-flush">
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Gender </span>
-                        <span>{gender}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Born </span>
-                        <span>{born}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Died </span>
-                        <span>{died}</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span className="term">Culture </span>
-                        <span>{culture}</span>
-                    </li>
-                </ul>
-            </>
+const View = ({char}) => {
+    const {name, gender, born, died, culture} = char;
+    return (
+        <>
+            <h4>Random Character: {name}</h4>
+            <ul className="list-group list-group-flush">
+                <li className="list-group-item d-flex justify-content-between">
+                    <span className="term">Gender </span>
+                    <span>{gender}</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between">
+                    <span className="term">Born </span>
+                    <span>{born}</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between">
+                    <span className="term">Died </span>
+                    <span>{died}</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between">
+                    <span className="term">Culture </span>
+                    <span>{culture}</span>
+                </li>
+            </ul>
+        </>
     )
 }

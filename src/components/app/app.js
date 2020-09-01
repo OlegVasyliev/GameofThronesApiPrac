@@ -4,7 +4,8 @@ import Header from '../header';
 import RandomChar from '../randomChar';
 import ErrorMessage from '../error';
 import CharacterPage from '../characterPage';
-import Button from 'react-bootstrap/Button';
+
+import './app.css';
 
 
 export default class App extends Component {
@@ -12,6 +13,7 @@ export default class App extends Component {
         showRandomChar: true,
         error: false
     }
+
     toggleRandomChar = () => {
         this.setState((state) => {
             return {
@@ -34,10 +36,9 @@ export default class App extends Component {
                     <Row>
                         <Col lg={{size: 5, offset: 0}}>
                             {char}
-                            <Button
-                                variant="primary"
+                            <button
                                 className="toggle-btn"
-                                onClick={this.toggleRandomChar}>Toggle random character</Button>
+                                onClick={this.toggleRandomChar}>Toggle random character</button>
                         </Col>
                     </Row>
                     <CharacterPage/>
